@@ -1,0 +1,22 @@
+{
+  "name": "server-manager",
+  "description": "API for server management",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.3",
+    "joi": "^13.4.0",
+    "morgan": "^1.9.0",
+    "mysql2": "^1.5.3",
+    "node-fetch": "^2.2.0",
+    "sequelize": "^4.38.0"
+  },
+  "scripts": {
+    "start": "node index"
+  },
+  "private": true,
+  "author": "Pranav Tharoor <pranavtharoor@iecsemanipal.com> (https://github.com/pranavtharoor/)",
+  "license": "UNLICENSED"
+}
