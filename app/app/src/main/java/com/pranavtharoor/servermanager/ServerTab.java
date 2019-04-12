@@ -1,12 +1,25 @@
 package com.pranavtharoor.servermanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.io.Serializable;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -28,6 +41,10 @@ public class ServerTab extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ServerAdapter adapter;
+    private RecyclerView recyclerView;
+
 
     public ServerTab() {
         // Required empty public constructor
@@ -64,7 +81,38 @@ public class ServerTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_server_tab, container, false);
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://at-project.ml/api/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        ServerDataService serverDataService = retrofit.create(ServerDataService.class);
+
+        Call<List<Server>> call = serverDataService.getServerData();
+
+        final View view = inflater.inflate(R.layout.fragment_server_tab, container, false);
+
+        call.enqueue(new Callback<List<Server>>() {
+            @Override
+            public void onResponse(Call<List<Server>> call, Response<List<Server>> response) {
+                List<Server> serverList;
+                serverList = response.body();
+                recyclerView = view.findViewById(R.id.recycler_view_server_list);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(new ServerAdapter(serverList));
+            }
+
+            @Override
+            public void onFailure(Call<List<Server>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error loading data", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
