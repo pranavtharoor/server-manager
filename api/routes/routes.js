@@ -10,13 +10,17 @@ exports.showServers = async (req, res) => {
 exports.showRequests = async (req, res) => {
   sequelize
     .query(
-      'SELECT requests.id as id, users.name as name, users.email as email, servers.ip as ip, servers.domain as domain from requests join users on requests.userId = users.id join servers on servers.id = requests.serverId'
+      'SELECT requests.id as id, users.name as name, users.email as email, servers.ip as ip, servers.domain as domain from requests join users on requests.userId = users.id join servers on servers.id = requests.serverId where requests.accepted = 0'
     )
     .then(data => res.send(data[0]));
 };
 
 exports.showAccess = async (req, res) => {
-  request.findAll({ where: { accepted: true } }).then(data => res.send(data));
+  sequelize
+    .query(
+      'SELECT requests.id as id, users.name as name, users.email as email, servers.ip as ip, servers.domain as domain from requests join users on requests.userId = users.id join servers on servers.id = requests.serverId where requests.accepted = 1'
+    )
+    .then(data => res.send(data[0]));
 };
 
 exports.addServer = async (req, res) => {
@@ -81,7 +85,25 @@ exports.rejectRequest = async (req, res) => {
 };
 
 exports.removeAccess = async (req, res) => {
-  // ssh -t root@${IP} "sed -i -e 's#${SSH_KEY}##g' ~/.ssh/authorized_keys && exit;bash -l"
+  request.findOne({ where: { id: req.params.id } }).then(data => {
+    server.findOne({ where: { id: data.serverId } }).then(serverData => {
+      exec(
+        `ssh -t root@${serverData.ip} "sed -i -e 's#${
+          data.sshKey
+        }##g' ~/.ssh/authorized_keys && exit;bash -l"
+        `,
+        (err, stdout, stderr) => {
+          if (err) {
+            console.log(data, err);
+            return res.send({ status: 0 });
+          }
+          request
+            .update({ accepted: false }, { where: { id: req.body.id } })
+            .then(data => res.send({ status: 1 }));
+        }
+      );
+    });
+  });
 };
 
 exports.hideServer = async (req, res) => {};
