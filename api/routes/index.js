@@ -43,7 +43,9 @@ router.post('/login', async (req, res) => {
   if (err) return res.send({ status: 0 });
   if (!result) return res.send({ status: 0 });
   req.session.key = userData;
-  res.send({ status: 1 });
+  req.session.save(() => {
+    res.send({ status: 1 });
+  });
 });
 
 router.post(
@@ -73,8 +75,8 @@ router.get(
 router.get('/requests', routes.showRequests);
 
 router.post(
-  '/requests/add/:id',
-  validator(schemas.routes.addRequest),
+  '/requests/add',
+  // validator(schemas.routes.addRequest),
   routes.addRequest
 );
 
