@@ -12,7 +12,7 @@ exports.showRequests = async (req, res) => {
     .query(
       'SELECT requests.id as id, users.name as name, users.email as email, servers.ip as ip, servers.domain as domain from requests join users on requests.userId = users.id join servers on servers.id = requests.serverId'
     )
-    .then(data => res.send(data));
+    .then(data => res.send(data[0]));
 };
 
 exports.showAccess = async (req, res) => {
