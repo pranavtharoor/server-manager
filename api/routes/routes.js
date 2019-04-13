@@ -8,7 +8,11 @@ exports.showServers = async (req, res) => {
 };
 
 exports.showRequests = async (req, res) => {
-  request.findAll({ where: { accepted: false } }).then(data => res.send(data));
+  sequelize
+    .query(
+      'SELECT requests.id as id, users.name as name, users.email as email, servers.ip as ip, servers.domain as domain from requests join users on requests.userId = users.id join servers on servers.id = requests.serverId'
+    )
+    .then(data => res.send(data));
 };
 
 exports.showAccess = async (req, res) => {
