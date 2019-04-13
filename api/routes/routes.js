@@ -47,8 +47,8 @@ exports.acceptRequest = async (req, res) => {
             console.log(data, err);
             return res.send({ status: 0 });
           }
-          request
-            .update({ accepted: 1 }, { where: { id: req.body.id } })
+          sequelize
+            .query(`update requests set accepted = 1 where id = ?`, [req.body.id])
             .then(data => res.send({ status: 1 }));
         }
       );
@@ -96,9 +96,9 @@ exports.removeAccess = async (req, res) => {
           if (err) {
             console.log(data, err);
             return res.send({ status: 0 });
-          }
-          request
-            .update({ accepted: false }, { where: { id: req.body.id } })
+
+          sequelize
+            .query(`update requests set accepted = 0 where id = ?`, [req.body.id])
             .then(data => res.send({ status: 1 }));
         }
       );
