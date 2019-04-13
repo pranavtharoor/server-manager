@@ -15,6 +15,7 @@
         android:layout_height="wrap_content" />
     <EditText
         android:hint="@string/placeholder_email"
+        android:id="@+id/login-email"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -23,7 +24,9 @@
         android:padding="10dp"
         android:layout_height="wrap_content" />
     <EditText
+        android:inputType="textPassword"
         android:hint="@string/placeholder_password"
+        android:id="@+id/login-password"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -34,6 +37,7 @@
     <Button
         android:layout_marginTop="20dp"
         android:text="LOGIN"
+        android:id="@+id/login-btn"
         android:background="@color/colorInput"
         android:textColor="@color/colorBackground"
         android:layout_width="wrap_content"
