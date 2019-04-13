@@ -72,6 +72,14 @@ exports.addRequest = async (req, res) => {
     });
 };
 
+exports.rejectRequest = async (req, res) => {
+  console.log(req.session.key);
+  request
+    .destroy({ where: { id: req.params.id } })
+    .then(data => res.send({ status: 1 }))
+    .catch(err => res.send({ status: 0 }));
+};
+
 exports.removeAccess = async (req, res) => {
   // ssh -t root@${IP} "sed -i -e 's#${SSH_KEY}##g' ~/.ssh/authorized_keys && exit;bash -l"
 };

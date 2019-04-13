@@ -89,7 +89,7 @@ router.get(
 router.get(
   '/requests/reject/:id',
   validator(schemas.routes.idParam),
-  routes.hideRequest
+  routes.rejectRequest
 );
 
 router.get('/accesses', routes.showAccess);
