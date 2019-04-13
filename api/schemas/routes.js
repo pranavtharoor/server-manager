@@ -12,6 +12,13 @@ const addServer = Joi.object({
   }).required()
 });
 
+const addRequest = Joi.object({
+  body: Joi.object({
+    sshKey: Joi.string().max(500),
+    id: Joi.number().required()
+  }).required()
+});
+
 const idParam = Joi.object({
   params: Joi.object({
     id: Joi.number().required()

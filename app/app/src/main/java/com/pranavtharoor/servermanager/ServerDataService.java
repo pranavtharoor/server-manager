@@ -13,8 +13,8 @@ public interface ServerDataService {
     Call<List<Server>> getServerData();
 
     @GET("servers/remove/{id}")
-    Call<Integer> deleteServer(@Path("id") String id);
+    Call<Status> deleteServer(@Path("id") String id);
 
     @POST("servers/add")
-    Call<Integer> addServer(@Body AddServerData data);
+    Call<Status> addServer(@Body AddServerData data);
 }

@@ -3,10 +3,48 @@ const router = express.Router();
 
 const validator = require('../utils/validator');
 const schemas = require('../schemas');
+const bcrypt = require('bcryptjs');
+const { user } = require('../models');
 
 const routes = require('./routes');
 
 router.get('/servers', routes.showServers);
+
+router.post('/register', async (req, res) => {
+  let err, myUser, salt, hash, newUser;
+  [err, salt] = await to(bcrypt.genSalt(10));
+  if (err) return res.sendError(err);
+  [err, hash] = await to(bcrypt.hash(req.body.password, salt));
+  if (err) return res.sendError(err);
+  [err, newUser] = await to(
+    user.create({
+      ...req.body,
+      password: hash
+    })
+  );
+  if (err) return res.send({ status: 0 });
+  return res.send({ status: 1 });
+});
+
+router.post('/login', async (req, res) => {
+  let err, userData, result;
+  [err, userData] = await to(
+    user.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+  );
+  if (err) return res.send({ status: 0 });
+  if (!userData) return res.send({ status: 0 });
+  [err, result] = await to(
+    bcrypt.compare(req.body.password, userData.password)
+  );
+  if (err) return res.send({ status: 0 });
+  if (!result) return res.send({ status: 0 });
+  req.session.key = userData;
+  res.send({ status: 1 });
+});
 
 router.post(
   '/servers/add',
@@ -43,7 +81,7 @@ router.post(
 router.get(
   '/requests/accept/:id',
   validator(schemas.routes.idParam),
-  routes.showRequest
+  routes.acceptRequest
 );
 
 router.get(

@@ -50,17 +50,15 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ServerView
 
                 ServerDataService serverDataService = retrofit.create(ServerDataService.class);
 
-                Call<Integer> call = serverDataService.deleteServer(Integer.toString(dataList.get(position).getId()));
+                Call<Status> call = serverDataService.deleteServer(Integer.toString(dataList.get(position).getId()));
 
-                call.enqueue(new Callback<Integer>() {
+                call.enqueue(new Callback<Status>() {
                     @Override
-                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        int success;
-                        success= response.body();
+                    public void onResponse(Call<Status> call, Response<Status> response) {
                     }
 
                     @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
+                    public void onFailure(Call<Status> call, Throwable t) {
                     }
                 });
 

@@ -1,5 +1,6 @@
 package com.pranavtharoor.servermanager;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,16 +38,16 @@ public class AddServer extends AppCompatActivity {
                 data.setIp(ipET.getText().toString());
                 data.setDomain(domainET.getText().toString());
 
-                Call<Integer> call = serverDataService.addServer(data);
+                Call<Status> call = serverDataService.addServer(data);
 
-                call.enqueue(new Callback<Integer>() {
+                call.enqueue(new Callback<Status>() {
                     @Override
-                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        
+                    public void onResponse(Call<Status> call, Response<Status> response) {
+                        getParent().finish();
                     }
 
                     @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
+                    public void onFailure(Call<Status> call, Throwable t) {
 
                     }
                 });

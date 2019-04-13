@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
+    },
+    sshKey: {
+      type: DataTypes.STRING(500),
+      allowNull: true
     }
   });
 

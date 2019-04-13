@@ -46,17 +46,16 @@ public class AccessAdapter extends RecyclerView.Adapter<AccessAdapter.AccessView
 
                 UserServerDataService userServerDataService = retrofit.create(UserServerDataService.class);
 
-                Call<Integer> call = userServerDataService.revokeAccess(Integer.toString(dataList.get(position).getId()));
+                Call<Status> call = userServerDataService.revokeAccess(Integer.toString(dataList.get(position).getId()));
 
-                call.enqueue(new Callback<Integer>() {
+                call.enqueue(new Callback<Status>() {
                     @Override
-                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        int success;
-                        success= response.body();
+                    public void onResponse(Call<Status> call, Response<Status> response) {
+
                     }
 
                     @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
+                    public void onFailure(Call<Status> call, Throwable t) {
                     }
                 });
             }
