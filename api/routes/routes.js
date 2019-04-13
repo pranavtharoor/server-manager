@@ -43,10 +43,6 @@ exports.acceptRequest = async (req, res) => {
           data.sshKey
         }' >> ~/.ssh/authorized_keys && exit;bash -l"`,
         (err, stdout, stderr) => {
-          if (err) {
-            console.log(data, err);
-            return res.send({ status: 0 });
-          }
           sequelize
             .query(`update requests set accepted = 1 where id = ?`, [
               req.body.id
@@ -95,16 +91,11 @@ exports.removeAccess = async (req, res) => {
         }##g' ~/.ssh/authorized_keys && exit;bash -l"
         `,
         (err, stdout, stderr) => {
-          if (err) {
-            console.log(data, err);
-            return res.send({ status: 0 });
-
-            sequelize
-              .query(`update requests set accepted = 0 where id = ?`, [
-                req.body.id
-              ])
-              .then(data => res.send({ status: 1 }));
-          }
+          sequelize
+            .query(`update requests set accepted = 0 where id = ?`, [
+              req.body.id
+            ])
+            .then(data => res.send({ status: 1 }));
         }
       );
     });
