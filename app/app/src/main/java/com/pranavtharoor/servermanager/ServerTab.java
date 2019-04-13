@@ -1,5 +1,6 @@
 package com.pranavtharoor.servermanager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -109,6 +110,14 @@ public class ServerTab extends Fragment {
             @Override
             public void onFailure(Call<List<Server>> call, Throwable t) {
                 Toast.makeText(getActivity(), "Error loading data", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        view.findViewById(R.id.server_add_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddServer.class);
+                startActivity(intent);
             }
         });
 

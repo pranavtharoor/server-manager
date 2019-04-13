@@ -3,11 +3,11 @@ package com.pranavtharoor.servermanager;
 import com.google.gson.annotations.SerializedName;
 
 public class Server {
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -36,7 +36,7 @@ public class Server {
     }
 
     @SerializedName("id")
-    private String id;
+    private int id;
 
     @SerializedName("visible")
     private String visible;
@@ -47,7 +47,7 @@ public class Server {
     @SerializedName("domain")
     private String domain;
 
-    public Server(String id, String visible, String domain, String ip) {
+    public Server(int id, String visible, String domain, String ip) {
         this.id= id;
         this.visible = visible;
         this.ip = ip;

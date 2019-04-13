@@ -4,9 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -26,6 +37,8 @@ public class RequestTab extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    RecyclerView recyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,8 +76,37 @@ public class RequestTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_request_tab, container, false);
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://at-project.ml/api/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        UserServerDataService userServerDataService = retrofit.create(UserServerDataService.class);
+
+        Call<List<UserServer>> call = userServerDataService.getRequestData();
+
+        final View view = inflater.inflate(R.layout.fragment_request_tab, container, false);
+
+        call.enqueue(new Callback<List<UserServer>>() {
+            @Override
+            public void onResponse(Call<List<UserServer>> call, Response<List<UserServer>> response) {
+                List<UserServer> userServerList;
+                userServerList = response.body();
+                recyclerView = view.findViewById(R.id.recycler_view_request_list);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(new RequestAdapter(userServerList));
+            }
+
+            @Override
+            public void onFailure(Call<List<UserServer>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error loading data", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -5,10 +5,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Server" />-->
+    <Button
+        android:text="ADD"
+        android:id="@+id/server-add-btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_server_list"

@@ -6,7 +6,6 @@
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp">
 
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,20 +14,35 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/server-ip"
+            android:id="@+id/request-ip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="8dp" />
+            android:layout_height="match_parent" />
 
         <TextView
-            android:id="@+id/server-domain"
+            android:id="@+id/request-domain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/request-name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/request-email"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <Button
+            android:id="@+id/request-accept-btn"
             android:layout_width="wrap_content"
-            android:text="DELETE"
-            android:id="@+id/server-delete-btn"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="ACCEPT" />
+
+        <Button
+            android:id="@+id/request-reject-btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REJECT" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

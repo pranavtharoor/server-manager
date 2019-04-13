@@ -5,14 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    domain: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    ip: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     accepted: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
