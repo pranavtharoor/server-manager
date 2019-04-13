@@ -1,0 +1,44 @@
+<div>
+  <form id="login-form">
+    <input id="email" type="email" name="email" placeholder="Email" />
+    <input id="password" type="password" name="password" placeholder="Password" />
+    <button>Login</button>
+  </form>
+  <form style="display: none" id="ssh-form">
+    <div id="servers"></div>
+    <input id="ssh" type="text" name="sshKey" placeholder="sshKey" />
+    <button>Login</button>
+  </form>
+</div>
+<script>
+  document.querySelector('#login-form').addEventListener('click', e => {
+    e.preventDefault();
+    fetch('https://at-project.ml/api/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: document.querySelector('#email'),
+        password: document.querySelector('#password')
+      }),
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(resp => resp.json())
+    .then(data => {
+      if(data.status > 0) {
+        document.querySelector('#login-form').style.display = 'none';
+        document.querySelector('#login-form').style.display = 'block';
+        fetchServers();
+      } else {
+        alert('Invalid');
+      }
+    })
+  })
+  function fetchServers() {
+    fetch('https://at-project.ml/api/servers', { credentials: include })
+    .then(resp => resp.json())
+    .then(data => {
+      document.querySelector('#servers').innerHTML = JSON.stringify(data);
+    });
+  }
+</script>

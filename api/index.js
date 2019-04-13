@@ -26,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', routes);
 
+app.get('/', (req, res) => res.sendfile('./public/index.html'));
+
 const port = process.env.PORT || 3000;
 
 models.sequelize.sync().then(
