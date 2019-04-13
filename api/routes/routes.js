@@ -48,7 +48,7 @@ exports.acceptRequest = async (req, res) => {
             return res.send({ status: 0 });
           }
           request
-            .update({ accepted: true }, { where: { id: req.body.id } })
+            .update({ accepted: 1 }, { where: { id: req.body.id } })
             .then(data => res.send({ status: 1 }));
         }
       );
