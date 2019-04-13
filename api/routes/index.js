@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
   if (!result) return res.send({ status: 0 });
   req.session.key = userData;
   req.session.save(() => {
-    res.send({ status: 1 });
+    res.send({ status: userData.admin ? 2 : 1 });
   });
 });
 
